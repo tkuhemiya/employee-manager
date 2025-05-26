@@ -47,7 +47,7 @@ const Add = () => {
     }
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     
     if (name.length === 0) {
       setMessage("Enter Name");
@@ -77,9 +77,13 @@ const Add = () => {
     console.log(name, categoryId, phoneNumber, birthDay, hireDate, salary);
     
     try {
-      addEmployees();
-      setMessage("Employee added successfully!");
-      clear();
+      let res = await addEmployees();
+      if(res){
+        setMessage("Employee added successfully!");
+        clear();
+      }else{
+        setMessage("An error occurred while adding the employee");
+      }
     } catch (error) {
       setMessage("An error occurred while adding the employee");
     }
@@ -102,7 +106,7 @@ const Add = () => {
         <h1>Add New Employee</h1>
 
         {message && (
-          <div style={{backgroundColor: message.includes('success') ? '#d4edda' : '#f8d7da',}}>
+          <div className={message.includes('successfully') ? "noterr" : "err"}>
             {message}
           </div>
         )}

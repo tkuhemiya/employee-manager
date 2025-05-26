@@ -70,16 +70,16 @@ const Edit = () => {
     }
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     
-    const regExp = /[a-zA-Z]/g;
+    const regExp = /^[a-zA-Z\s]+$/;
 
     if (name.length === 0 || name.length > 255) {
       setMessage("Invalid name");
       return;
     }
 
-    if (regExp.test(name)){
+    if (!regExp.test(name)){
       setMessage("Name cannot contain numbers");
       return;
     }
@@ -117,9 +117,13 @@ const Edit = () => {
     console.log(name, categoryId, phoneNumber, birthDay, hireDate, salary);
     
     try {
-      editEmployees();
-      setMessage("Employee edited successfully!");
-      getEmployee();
+      let res = await editEmployees();
+      if (res){
+        setMessage("Employee edited successfully!");
+        getEmployee();
+      }else{
+        setMessage("An error occurred while editing the employee");
+      }
     } catch (error) {
       setMessage("An error occurred while editing the employee");
     }
@@ -148,10 +152,7 @@ const Edit = () => {
         <h1>Edit Employee</h1>
 
         {message && (
-          <div style={{ 
-            backgroundColor: message.includes('successfully') ? '#d4edda' : '#f8d7da',
-            color: message.includes('successfully') ? '#155724' : '#721c24',
-          }}>
+          <div className={message.includes('successfully') ? "noterr" : "err"}>
             {message}
           </div>
         )}
@@ -165,14 +166,14 @@ const Edit = () => {
           placeholder="Enter employee name"
         />
         <br/>
-        <label>Category ID</label>
-        <input
-          type="number"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-          min="1"
-          max="4"
-        />
+        <label>Category</label>
+        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+          <option value="">Select a category</option>
+          <option value="1">Manager</option>
+          <option value="2">Backend</option>
+          <option value="3">frontend</option>
+          <option value="4">Accountant</option>
+        </select>
         <br/>
         <label>Phone Number</label>
         <input
