@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'IskoolaPota';
+  src: url('../../public/fonts/Iskoola-Pota-Regular.ttf');
+}
+
+.home-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.nav{
+    padding: 20px;
+}
+
+table{
+    margin: 10px 0px;
+    min-width: 400px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: left;
+}
+tr{
+    border: 1px solid gray;
+}
+thead{
+    background-color: rgb(36, 36, 36);
+    color: white;
+}
+th,td{
+    padding: 2px 15px 2px 10px;
+}
+.table-btn{
+    border: 0px !important;
+}
+.data-row:nth-child(even) {
+    background-color: rgb(234, 234, 234);
+}
+
+button{
+    padding: 10px 10px;
+}
+.translate-btn{
+
+}
+.add-btn{
+    width: 100%;
+    background-color: rgb(43, 43, 43);
+    color: white;
+    font-size: 1.5rem;
+}
+.add-btn:hover{
+    background-color: rgb(77, 77, 77);
+    color: white;
+}
+.edit-btn{
+    margin: 10px;
+    padding: 10px 10px ;
+    width: 100px;
+}
+.del-btn{
+    margin: 10px;
+    padding: 10px 10px ;
+    width: 100px;
+}
+
+.name-sinhala{
+    font-family: iskoola-pota;
+}
+.name-english{
+    font-family: Arial, Helvetica, sans-serif;
+}
