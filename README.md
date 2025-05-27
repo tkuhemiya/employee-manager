@@ -2,7 +2,7 @@
 
 # How to install and run
 - install docker
-- download the files: `git clone https://github.com/tkuhemiya/employee-manager.git` or download and unzip the zipfile
+- download the files: use `git clone https://github.com/tkuhemiya/employee-manager.git` or download and unzip the zipfile
 - go into the folder: `cd employee-manager`
 - build and run the docker image: `docker-compose up --build`
 - the app will be hosted on localhost:80, visit localhost:80
