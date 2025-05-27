@@ -1,35 +1,40 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
+import dotenv from 'dotenv'
+
 
 const PORT = 8080;
-const SQL_HOST = '127.0.01';
-const USER = 'root';
-const PW = '';
 
+dotenv.config();
 const app = express()
 app.use(express.json())
 app.use(cors()) 
 
 const database = mysql.createConnection({
-    host: SQL_HOST,
-    user: USER,
-    password: PW,
-    database: 'employee_manager'
+    host: process.env.DB_HOST || 'mysql',
+    user: process.env.DB_USER || 'user',
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "employee_manager"
 }).promise()
 
 const testConnection = async () => {
     try {
-        await database.connect();
+        await database.query('SELECT 1');
         console.log('Database connected');
     } catch (err) {
         console.error('Database couldnt connect', err.message);
     }
 }
 
-testConnection();
+await testConnection();
 
-console.log(SQL_HOST, USER, PW)
+console.log('connect using:', {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  name: process.env.DB_NAME
+});
 
 app.get("/api", (req,res) => {
     res.json("Hello")

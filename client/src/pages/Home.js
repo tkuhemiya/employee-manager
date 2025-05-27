@@ -3,7 +3,7 @@ import "./home.css"
 import { Link } from 'react-router-dom';
 import { decoder } from '../decodeSinhala';
 
-const url = "http://localhost:8080/api/employee";
+const url = "/api/employee";
 
 const Home = () => {
   const [employees, setEmployees] = useState([]);

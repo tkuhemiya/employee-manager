@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./form.css"
 
-const url = "http://localhost:8080/api/employee";
+const url = "/api/employee";
+// const url = "http://localhost:8080/api/employee";
+
 
 const Add = () => {
   const [name, setName] = useState("");
