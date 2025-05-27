@@ -50,16 +50,23 @@ const Add = () => {
 
   const handleAdd = async () => {
     
-    if (name.length === 0) {
-      setMessage("Enter Name");
+    const regExp = /^[a-zA-Z\s]+$/;
+
+    if (name.length === 0 || name.length > 255) {
+      setMessage("Invalid name");
       return;
     }
-    if (!categoryId) {
-      setMessage("Enter category id");
+
+    if (!regExp.test(name)){
+      setMessage("Name cannot contain numbers");
       return;
     }
-    if (phoneNumber.length === 0) {
-      setMessage("Enter phone number");
+    if (!categoryId || parseInt(categoryId) < 1 || parseInt(categoryId) > 4) {
+      setMessage("Invalid category id");
+      return;
+    }
+    if (phoneNumber.length === 0 || phoneNumber.length > 10 || phoneNumber < 10) {
+      setMessage("Phone number must be 10 digits");
       return;
     }
     if (!birthDay) {

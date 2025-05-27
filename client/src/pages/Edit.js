@@ -85,7 +85,7 @@ const Edit = () => {
     }
     
     if (!categoryId || parseInt(categoryId) < 1 || parseInt(categoryId) > 4) {
-      setMessage("Category ID must be between 1 and 4");
+      setMessage("Invalid category id");
       return;
     }
     
@@ -94,11 +94,6 @@ const Edit = () => {
       return;
     }
 
-    if (regExp.test(phoneNumber)){
-      setMessage("Phone number cant contain letters")
-      return
-    }
-    
     if (!birthDay) {
       setMessage("Birth date is required");
       return;
