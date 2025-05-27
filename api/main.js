@@ -20,22 +20,16 @@ const database = mysql.createConnection({
     database: DB_NAME
 }).promise()
 
-
 const testConnection = async () => {
-
-  const connected = false;
-
-  while(!connected)
     try {
         await database.connect();
         console.log('Database connected');
-        connected = true;
     } catch (err) {
-        console.error('Database couldnt connect', err.message, 'trying again!');
+        console.error('Database couldnt connect', err.message);
     }
 }
 
-await testConnection();
+testConnection();
 
 console.log('Connect using: ', { host: SQL_HOST, user: USER, database: DB_NAME });
 
