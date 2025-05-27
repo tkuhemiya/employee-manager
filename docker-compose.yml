@@ -9,12 +9,16 @@ services:
       MYSQL_DATABASE: employee_manager
       MYSQL_USER: user
       MYSQL_PASSWORD: ""
+    ports:
+      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   backend:
     build: ./api
+    ports:
+      - "8080:8080"
     depends_on:
       - mysql
     environment:
