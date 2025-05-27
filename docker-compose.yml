@@ -5,25 +5,30 @@ services:
     restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: ""
       MYSQL_DATABASE: employee_manager
-      MYSQL_USER: user
-      MYSQL_PASSWORD: ""
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 
   backend:
     build: ./api
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
       - DB_HOST=mysql
-      - DB_USER=user  
+      - DB_USER=root  
       - DB_PASSWORD=
       - DB_NAME=employee_manager
 

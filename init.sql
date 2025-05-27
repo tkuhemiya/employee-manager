@@ -19,7 +19,7 @@ INSERT INTO category (category_name)
 VALUES ('Manager'), ('Backend'), ('Frountend'), ('Accountant');
 
 INSERT INTO employee (name, category_id, phone_number, birth_day, hire_date, salary) VALUES 
-('sanjeewa Silva', 1, '1111111111', '1985-04-12', '2010-01-15', 120000.00),
-('', 2, '1111111112', '1990-06-20', '2015-03-10', 95000.00);
+('sanjeewa Silva', 1, '0778888888', '2001-04-12', '2020-01-15', 120000.00),
+('kamal herath', 2, '0778888889', '2000-06-20', '2022-03-10', 95000.00);
 
 

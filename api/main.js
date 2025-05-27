@@ -3,9 +3,11 @@ import cors from 'cors';
 import mysql from 'mysql2';
 
 const PORT = 8080;
-const SQL_HOST = '127.0.0.1';
-const USER = 'root';
-const PW = '';
+
+const SQL_HOST = process.env.DB_HOST || '127.0.0.1';
+const USER = process.env.DB_USER || 'root';
+const PW = process.env.DB_PASSWORD || '';
+const DB_NAME = process.env.DB_NAME || 'employee_manager';
 
 const app = express()
 app.use(express.json())
@@ -15,7 +17,7 @@ const database = mysql.createConnection({
     host: SQL_HOST,
     user: USER,
     password: PW,
-    database: 'employee_manager'
+    database: DB_NAME
 }).promise()
 
 const testConnection = async () => {
@@ -29,7 +31,7 @@ const testConnection = async () => {
 
 testConnection();
 
-console.log(SQL_HOST, USER, PW)
+console.log('Connect using: ', { host: SQL_HOST, user: USER, database: DB_NAME });
 
 app.get("/api", (req,res) => {
     res.json("Hello")
@@ -67,7 +69,6 @@ app.get("/api/employee/:id", async (req, res) => {
     console.error("Error fetching employee\n", err.message);
   }
 });
-
 
 app.put("/api/employee/:id", async (req, res) => {
   try {
@@ -111,10 +112,9 @@ app.delete("/api/employee/:id", async (req, res) => {
 
   } catch (err) {
     console.error("Error deleteing employee\n", err.message);
-    return res.json(true);
+    return res.json(false);
   }
 });
-
 
 app.listen(PORT, () => {
     console.log("Listening... to " + PORT)
