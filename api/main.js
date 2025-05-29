@@ -39,11 +39,7 @@ app.get("/api", (req,res) => {
 
 app.get("/api/employee", async (req, res) => {
   try{
-    const data = await database.query(`
-      SELECT employee.id, employee.name, category.category_name, employee.phone_number, employee.birth_day, employee.hire_date, employee.salary 
-      FROM employee 
-      LEFT JOIN category ON employee.category_id = category.id;
-      `);
+    const data = await database.query(`CALL get_all_employees()`);
     return res.json(data[0])
   }catch(err){
     console.error("Error getting employees")
@@ -62,7 +58,7 @@ app.get("/api/category", async (req, res) => {
 app.get("/api/employee/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await database.query("SELECT * FROM employee WHERE id = ?", [id]);
+    const data = await database.query(`CALL get_employee_byID(?)`,[id]);
 
     return res.json(data[0][0]);
   } catch (err) {
@@ -76,10 +72,7 @@ app.put("/api/employee/:id", async (req, res) => {
     const { name, category_id, phone_number, birth_day, hire_date, salary } = req.body;
 
     const [data] = await database.query(
-      `UPDATE employee 
-       SET name = ?, category_id = ?, phone_number = ?, birth_day = ?, hire_date = ?, salary = ? 
-       WHERE id = ?`,
-      [name, category_id, phone_number, birth_day, hire_date, salary, id]
+      `CALL update_employee_byID(?, ?, ?, ?, ?, ?, ?)`,[id, name, category_id, phone_number, birth_day, hire_date, salary]
     );
     return res.json(true);
 
@@ -93,7 +86,7 @@ app.post("/api/employee", async (req, res) => {
     try{
     const { name, category_id, phone_number, birth_day, hire_date, salary } = req.body;
     const values = [name, category_id, phone_number, birth_day, hire_date, salary];
-    const data = await database.query("INSERT INTO employee (name, category_id, phone_number, birth_day, hire_date, salary) VALUES (?, ?, ?, ?, ?, ?)", values);
+    const data = await database.query('CALL add_employee(?, ?, ?, ?, ?, ?)', values);
     
     return res.json(true);
 
@@ -107,7 +100,7 @@ app.post("/api/employee", async (req, res) => {
 app.delete("/api/employee/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await database.query("DELETE FROM employee WHERE id = ?", [id]);
+    const data = await database.query('CALL delete_employee_byID(?)', [id]);
     return res.json(true);
 
   } catch (err) {
