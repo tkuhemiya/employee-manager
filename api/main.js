@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json())
 app.use(cors()) 
 
-const database = mysql.createConnection({
+let database = mysql.createConnection({
     host: SQL_HOST,
     user: USER,
     password: PW,
@@ -24,12 +24,37 @@ const testConnection = async () => {
     try {
         await database.connect();
         console.log('Database connected');
+        return true;
     } catch (err) {
         console.error('Database couldnt connect', err.message);
+        return false;
     }
 }
-
 testConnection();
+
+async function waitForConnection() {
+  let connected = false;
+  while (!connected) {
+
+    database = mysql.createConnection({
+      host: SQL_HOST,
+      user: USER,
+      password: PW,
+      database: DB_NAME
+    }).promise()
+
+    connected = await testConnection();
+
+    if (!connected) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+}
+
+(async () => {
+  await waitForConnection();
+  console.log("Connected!");
+})();
 
 console.log('Connect using: ', { host: SQL_HOST, user: USER, database: DB_NAME });
 
