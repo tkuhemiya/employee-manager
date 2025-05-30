@@ -65,7 +65,7 @@ app.get("/api", (req,res) => {
 app.get("/api/employee", async (req, res) => {
   try{
     const data = await database.query(`CALL get_all_employees()`);
-    return res.json(data[0])
+    return res.json(data[0][0])
   }catch(err){
     console.error("Error getting employees")
   }
@@ -74,7 +74,7 @@ app.get("/api/employee", async (req, res) => {
 app.get("/api/category", async (req, res) => {
   try{
     const data = await database.query("SELECT * FROM category");
-    return res.json(data[0])
+    return res.json(data[0][0])
   }catch(err){
     console.error("Error getting category\n", err);
   }
@@ -85,7 +85,7 @@ app.get("/api/employee/:id", async (req, res) => {
     const { id } = req.params;
     const data = await database.query(`CALL get_employee_byID(?)`,[id]);
 
-    return res.json(data[0][0]);
+    return res.json(data[0][0][0]);
   } catch (err) {
     console.error("Error fetching employee\n", err.message);
   }

@@ -15,6 +15,7 @@ const Home = () => {
         method: "GET"
     });
     const data = await res.json();
+    console.log(data)
     setEmployees(data);
 
     }catch (error) {
@@ -73,8 +74,8 @@ const Home = () => {
                 <td className={translate? 'name-sinhala' : 'name-english'}>{translate ? decoder(employee.name) : employee.name}</td>
                 <td>{employee.category_name}</td>
                 <td>{employee.phone_number}</td>
-                <td>{employee.birth_day.slice(0, 10)}</td>
-                <td>{employee.hire_date.slice(0, 10)}</td>
+                <td>{employee.birth_day.slice(0,10)}</td>
+                <td>{employee.hire_date.slice(0,10)}</td>
                 <td>{employee.salary}</td>
                 <td className='table-btn'><Link to={`/edit/${employee.id}`}><button className='edit-btn'>Edit</button></Link></td>
                 <td className='table-btn'><button className='del-btn' onClick={() => {handleDelete(employee.id, employee.name)}}>Delete</button></td>
