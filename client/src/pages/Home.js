@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import "./home.css"
 import { Link } from 'react-router-dom';
 import { decoder } from '../decodeSinhala';
+import { jsPDF } from 'jspdf';
+import { autoTable } from 'jspdf-autotable';
 
 const url = "http://localhost:8080/api/employee";
 
@@ -46,14 +48,46 @@ const Home = () => {
     getEmployees();
   }, []);
 
+const PDFButton = () => {
+  const generatePDF = async () => {
+    const doc = new jsPDF();
+
+    const headers = [["ID", "Name", "Employee category", "Phone number", "Birthday", "Hired date", "Salary"]];
+    
+    const data = employees.map(emp => ([
+      emp.id,
+      emp.name,
+      emp.category_name,
+      emp.phone_number,
+      emp.birth_day.slice(0,10),
+      emp.hire_date.slice(0,10),
+      emp.salary
+    ]));
+
+    doc.text("Employee List", 15, 10);
+    console.log(data,headers)
+    autoTable(doc,{head: headers, body: data, startY: 20})
+    // doc.autoTable({head: headers, body: data, startY: 20})
+
+    doc.save("employee_list.pdf");
+  };
+
+  return (
+    <button onClick={generatePDF}>
+      Download Employee List
+    </button>
+  );
+}
+
   return (
     <div className='home-page'>
       <div className='nav'>
         <button className='translate-btn' onClick={() => {setTranslate(!translate)} }>Translate names to {translate ? "English" : "Sinhala"}</button>
+        <PDFButton />
       </div>
       <div className='table-div'>
         <Link to={'/add'}><button className='add-btn'>Add New Employee</button></Link>
-        <table>
+        <table id='employee-table'>
           <thead>
             <tr>
               <th>ID</th>

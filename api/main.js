@@ -8,6 +8,7 @@ const SQL_HOST = process.env.DB_HOST || '127.0.0.1';
 const USER = process.env.DB_USER || 'root';
 const PW = process.env.DB_PASSWORD || '';
 const DB_NAME = process.env.DB_NAME || 'employee_manager';
+console.log('Connect using: ', { host: SQL_HOST, user: USER, database: DB_NAME });
 
 const app = express()
 app.use(express.json())
